@@ -56,12 +56,14 @@
 }
 @media (max-width: 500px) {
   .logo {
-    display: none;
+    /* display: none; */
+    font-size: 1.5em;
   }
-  .header {
-    justify-content: center;
-  }
+
   .adminContainer h4 {
     display: inline-block;
   }
+.rightHeader{
+  justify-items: space-between;
+}
 }

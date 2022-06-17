@@ -14,21 +14,23 @@ const Header = (props: Props) => {
   return (
     <>
       <header className={classes.header}>
-        <h1 className={classes.logo}> FoodApp </h1>
+        <div className={classes.logoContainer}>
+          <h1 className={classes.logo}> FoodApp </h1>
+        </div>
 
         <div className={classes.rightHeader}>
           <HeaderCartButton onShow={props.onShow} />
-          <div className={classes.adminContainer}>
-            <div>
+          {/* <div className={classes.adminContainer}> */}
+          {/* <div>
               <h4>FoodApp</h4>
-            </div>
-            <div className={classes.adminHolder}> 
-              <span className={classes.admin}>
-                <Link to="/admin/register">Admin</Link>
-              </span>
-              <RiAdminLine />
-            </div>
+            </div> */}
+          <div className={classes.adminHolder}>
+            <span className={classes.admin}>
+              <Link to="/admin/register">Admin</Link>
+            </span>
+            <RiAdminLine />
           </div>
+          {/* </div> */}
         </div>
       </header>
       <div className={classes["main-image"]}>
