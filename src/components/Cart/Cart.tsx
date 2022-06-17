@@ -70,7 +70,7 @@ const Cart = (props: Props) => {
       loading: true,
     });
     try {
-      const response = await axios.post("/user", {
+      const response = await axios.post("https://food-appp-server.herokuapp.com/user", {
         ...data,
         orders: items,
       });

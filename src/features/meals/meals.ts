@@ -69,7 +69,7 @@ const actions = mealSlice.actions;
 export const fetchData = () => {
   return async (dispatch: AppDispatch) => {
     const fetching = async () => {
-      const response = await axios("/meals");
+      const response = await axios("https://food-appp-server.herokuapp.com/meals");
       if (response.status === 200) {
         dispatch(actions.setLoading({ loading: false }));
         dispatch(actions.fetchMeals(response.data));

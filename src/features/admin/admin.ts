@@ -33,7 +33,7 @@ const initialState = {
 };
 
 const authFetch = axios.create({
-  baseURL: "",
+  baseURL: "https://food-appp-server.herokuapp.com",
   headers: { Authorization: `Bearer ${initialState.token}` },
 });
 
@@ -110,7 +110,7 @@ export const login = (data: adminData) => {
         })
       );
       dispatch(clearAlert());
-      const response = await axios.post("/admin/login", {
+      const response = await axios.post("https://food-appp-server.herokuapp.com/admin/login", {
         email: data.email,
         password: data.password,
       });
@@ -158,7 +158,7 @@ export const register = (data: adminData) => {
         })
       );
       dispatch(clearAlert());
-      const response = await axios.post("/admin/register", {
+      const response = await axios.post("https://food-appp-server.herokuapp.com/admin/register", {
         email: data.email,
         password: data.password,
         name: data.name,
@@ -282,7 +282,7 @@ export const editMealFromBack = (data: Data) => {
 export const getUser = () => {
   return async (dispatch: AppDispatch) => {
     const getUserFromBack = async () => {
-      const response = await axios("/user");
+      const response = await axios("https://food-appp-server.herokuapp.com/user");
       if (response.status === 200) {
         dispatch(actions.setUser(response.data));
       }
