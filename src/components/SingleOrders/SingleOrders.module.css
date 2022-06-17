@@ -1,0 +1,29 @@
+.singleOrdersContainer {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.userInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orders {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0;
+}
+
+.openBtn {
+  align-self: end;
+}
+
+.buttonDiv {
+  display: flex;
+  flex-direction: column;
+}
+.closeBtn {
+  align-self: flex-end;
+}
