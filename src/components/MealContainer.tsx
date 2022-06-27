@@ -4,8 +4,7 @@ import SingleMeal from "./SingleMeal";
 import Wrapper from "../assets/wrappers/MealsContainer";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { fetchData } from "../features/meals/meals";
-
-
+import Loader from "../components/Loader/Loader";
 
 type SingleMealType = {
   createdAt: string;
@@ -13,19 +12,23 @@ type SingleMealType = {
   _id: string;
   name: string;
   description: string;
-  updatedAt:string
+  updatedAt: string;
 };
 
 const MealContainer = () => {
-  const { meal: meals } = useAppSelector((store) => store.meals);
+  const { meal: meals, loading } = useAppSelector((store) => store.meals);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchData());
   }, []);
-  // if (isLoading) {
-  //   return <Loading center = "" />;
-  // }
+  if (loading) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Loader />
+      </div>
+    );
+  }
   if (meals.length === 0) {
     return (
       <Wrapper>

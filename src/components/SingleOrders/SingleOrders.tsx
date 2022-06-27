@@ -15,7 +15,7 @@ type Props = {
   orders: Array<any>;
 };
 
-const SingleOrders = (props: Props) => {
+const SingleOrders = (props: any) => {
   let date = moment(props.createdAt).format("MMM Do YYYY");
   const [state, setState] = useState(false);
 
@@ -25,7 +25,7 @@ const SingleOrders = (props: Props) => {
   const closeModal = () => {
     setState(false);
   };
-
+console.log(props)
   return (
     <div className={classes.singleOrdersContainer}>
       <header className={classes.headers}>
@@ -40,16 +40,16 @@ const SingleOrders = (props: Props) => {
             </li>
             <li className="table-row">
               <div className="col col-4" data-label="Name">
-                {props.name}
+                {props._id.name}
               </div>
               <div className="col col-4" data-label="Street">
-                {props.street}
+                {props._id.street}
               </div>
               <div className="col col-4" data-label="Postal">
-                {props.postal}
+                {props._id.postal}
               </div>
               <div className="col col-4" data-label="City">
-                {props.city}
+                {props._id.city}
               </div>
 
               <div className="col col-4" data-label="Date">
@@ -70,7 +70,7 @@ const SingleOrders = (props: Props) => {
                 <div className="col col-4">Amount</div>
               </li>
 
-              {props.orders.map((order, index) => {
+              {props.data.map((order:any, index:any) => {
                 return (
                   <li className="table-row" key={index}>
                     <div className="col col-4" data-label="Name">

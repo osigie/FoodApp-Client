@@ -23,6 +23,11 @@
   border-radius: 5px;
 }
 
+.list{
+  display: flex;
+  flex-direction: column;
+}
+
 @keyframes meals-appear {
   from {
     opacity: 0;

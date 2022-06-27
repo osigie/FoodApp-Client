@@ -12,6 +12,7 @@ type Props = {
   description: string;
   price: number;
   id: string;
+  admin:string
 };
 
 const MealItem = (props: Props) => {
@@ -23,6 +24,7 @@ const MealItem = (props: Props) => {
       name: props.name,
       amount: amount,
       price: props.price,
+      admin: props.admin
     };
     dispatch(addItemToCart(item));
   };

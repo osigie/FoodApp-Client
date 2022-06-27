@@ -3,7 +3,8 @@ import Card from "../UI/Card";
 import React, { useEffect, useState } from "react";
 import MealItem from "./MealItem/MealItem";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { fetchData } from "../../features/meals/meals";
+import {  fetchMealLanding } from "../../features/meals/meals";
+import Loader from "../Loader/Loader"
 
 type MealType = {
   admin: string;
@@ -21,7 +22,7 @@ type Props = {};
 
 const AvailableMeals = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { meal } = useAppSelector((store) => store.meals);
+  const { landingMeals:meal, mealLoading } = useAppSelector((store) => store.meals);
   const [search, setSearch] = useState("");
 
   const searched = meal.filter((item: MealType) => {
@@ -31,7 +32,7 @@ const AvailableMeals = (props: Props) => {
   });
 
   useEffect(() => {
-    dispatch(fetchData());
+    dispatch(fetchMealLanding());
   }, [dispatch]);
 
   return (
@@ -47,8 +48,10 @@ const AvailableMeals = (props: Props) => {
       </label>
 
       <Card>
-        <ul>
-          {searched.length === 0 ? (
+        <ul className= {classes.list}>
+
+          {mealLoading && <Loader />}
+          {searched.length === 0 && !mealLoading ? (
             <div> No Match</div>
           ) : (
             searched.map((each: MealType, index: number) => {
@@ -59,6 +62,7 @@ const AvailableMeals = (props: Props) => {
                   name={each.name}
                   description={each.description}
                   price={each.price}
+                  admin ={each.admin}
                 />
               );
             })

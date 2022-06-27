@@ -17,7 +17,7 @@ type adminData = {
   _id?: string;
 };
 
-
+const newPath = "http://localhost:4002";
 
 const token = localStorage.getItem("token");
 const admin: any = localStorage.getItem("admin");
@@ -30,10 +30,12 @@ const initialState = {
   alertType: "",
   isAlert: false,
   user: [],
+  userLoading:true
 };
 
-const authFetch = axios.create({
-  baseURL: "https://food-appp-server.herokuapp.com",
+export const authFetch = axios.create({
+  // baseURL: "https://food-appp-server.herokuapp.com",
+  baseURL: newPath,
   headers: { Authorization: `Bearer ${initialState.token}` },
 });
 
@@ -70,6 +72,9 @@ const adminSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setUserLoading: (state, action)=>{
+      state.userLoading = false
+    }
   },
 });
 
@@ -110,7 +115,8 @@ export const login = (data: adminData) => {
         })
       );
       dispatch(clearAlert());
-      const response = await axios.post("https://food-appp-server.herokuapp.com/admin/login", {
+      // const response = await axios.post("https://food-appp-server.herokuapp.com/admin/login", {
+        const response = await axios.post(newPath+"/admin/login", {
         email: data.email,
         password: data.password,
       });
@@ -158,7 +164,8 @@ export const register = (data: adminData) => {
         })
       );
       dispatch(clearAlert());
-      const response = await axios.post("https://food-appp-server.herokuapp.com/admin/register", {
+      // const response = await axios.post("https://food-appp-server.herokuapp.com/admin/register", {
+        const response = await axios.post(newPath+"/admin/register", {
         email: data.email,
         password: data.password,
         name: data.name,
@@ -282,9 +289,11 @@ export const editMealFromBack = (data: Data) => {
 export const getUser = () => {
   return async (dispatch: AppDispatch) => {
     const getUserFromBack = async () => {
-      const response = await axios("https://food-appp-server.herokuapp.com/user");
+      // const response = await axios("https://food-appp-server.herokuapp.com/user");
+        const response = await authFetch( "/user");
       if (response.status === 200) {
         dispatch(actions.setUser(response.data));
+        dispatch(actions.setUserLoading(false))
       }
     };
     try {

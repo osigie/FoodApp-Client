@@ -13,6 +13,7 @@ import {
 import CheckOut from "./CheckOut";
 import { UserData } from "./CheckOut";
 import axios from "axios";
+const newPath = "http://localhost:4002";
 type Props = {
   onClose: () => void;
 };
@@ -65,12 +66,14 @@ const Cart = (props: Props) => {
   };
 
   const sendData = async (data: UserData) => {
+    console.log(items);
     setSubmit({
       ...submit,
       loading: true,
     });
     try {
-      const response = await axios.post("https://food-appp-server.herokuapp.com/user", {
+      // const response = await axios.post("https://food-appp-server.herokuapp.com/user", {
+      const response = await axios.post(newPath + "/user", {
         ...data,
         orders: items,
       });

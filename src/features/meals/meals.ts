@@ -9,6 +9,8 @@ import { AppDispatch } from "../../app/store";
 import axios from "axios";
 import { RootState, AppThunk } from "../../app/store";
 import { SingleMealType } from "../../components/SingleMeal";
+import { authFetch } from "../admin/admin";
+const newPath = "http://localhost:4002";
 
 const initialState = {
   meal: [],
@@ -18,6 +20,8 @@ const initialState = {
   name: "",
   description: "",
   price: "",
+  landingMeals:[],
+  mealLoading:true
 };
 
 const mealSlice = createSlice({
@@ -56,8 +60,14 @@ const mealSlice = createSlice({
       state.price = "";
       state.description = "";
     },
-    toggleEdit:(state)=>{
-        state.isEdit = !state.isEdit;
+    toggleEdit: (state) => {
+      state.isEdit = !state.isEdit;
+    },
+    fetchLandingMeals: (state, action) => {
+      state.landingMeals = action.payload;
+    },
+    isLoading:(state, action)=>{
+      state.mealLoading = false
     }
   },
 });
@@ -69,10 +79,12 @@ const actions = mealSlice.actions;
 export const fetchData = () => {
   return async (dispatch: AppDispatch) => {
     const fetching = async () => {
-      const response = await axios("https://food-appp-server.herokuapp.com/meals");
+      // const response = await axios("https://food-appp-server.herokuapp.com/meals");
+      const response = await authFetch("/meals/admin/v1");
       if (response.status === 200) {
         dispatch(actions.setLoading({ loading: false }));
         dispatch(actions.fetchMeals(response.data));
+ 
         return;
       }
     };
@@ -85,13 +97,36 @@ export const fetchData = () => {
   };
 };
 
+
+export const fetchMealLanding = () => {
+  return async (dispatch: AppDispatch) => {
+    const fetching = async () => {
+      const response = await axios(newPath+"/meals");
+      // const response = await authFetch("/meals");
+      if (response.status === 200) {
+        dispatch(actions.setLoading({ loading: false }));
+        dispatch(actions.fetchLandingMeals(response.data));
+         dispatch(actions.isLoading(false));
+        return;
+      }
+    };
+
+    try {
+      await fetching();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+
 export const {
   fetchMeals,
   deleteMeals,
   handleChangeOfInput,
   clearValues,
   getOneMealToState,
-  toggleEdit
+  toggleEdit,
 } = mealSlice.actions;
 
 export default mealSlice.reducer;
