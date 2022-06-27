@@ -17,28 +17,29 @@ type adminData = {
   _id?: string;
 };
 
-const newPath = "http://localhost:4002";
+
 
 const token = localStorage.getItem("token");
-const admin: any = localStorage.getItem("admin");
+const admin:string | null = localStorage.getItem("admin");
 
 const initialState = {
   token: token,
-  admin: JSON.parse(admin) || null,
+  admin: JSON.parse(admin as string) || null,
   msg: "",
   isLoading: false,
   alertType: "",
   isAlert: false,
   user: [],
-  userLoading:true
+  userLoading: true,
 };
 
-export const authFetch = axios.create({
-  // baseURL: "https://food-appp-server.herokuapp.com",
-  baseURL: newPath,
-  headers: { Authorization: `Bearer ${initialState.token}` },
-});
+ axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
+export const authFetch = axios.create({
+  baseURL: "https://food-appp-server.herokuapp.com",
+  // baseURL: newPath,
+  // headers: { Authorization: `Bearer ${token}` },
+});
 const adminSlice = createSlice({
   name: "admin",
   initialState,
@@ -72,9 +73,9 @@ const adminSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
-    setUserLoading: (state, action)=>{
-      state.userLoading = false
-    }
+    setUserLoading: (state, action) => {
+      state.userLoading = false;
+    },
   },
 });
 
@@ -115,14 +116,13 @@ export const login = (data: adminData) => {
         })
       );
       dispatch(clearAlert());
-      // const response = await axios.post("https://food-appp-server.herokuapp.com/admin/login", {
-        const response = await axios.post(newPath+"/admin/login", {
+      const response = await axios.post("https://food-appp-server.herokuapp.com/admin/login", {
         email: data.email,
         password: data.password,
       });
 
       const { token, admin } = response.data;
-      toLacal(admin, token);
+
       if (response.status === 200) {
         dispatch(
           actions.sendMsg({
@@ -132,6 +132,7 @@ export const login = (data: adminData) => {
             isLoading: true,
           })
         );
+        toLacal(admin, token);
         dispatch(clearAlert());
         dispatch(actions.registerAdmin({ token, admin }));
         return;
@@ -164,14 +165,13 @@ export const register = (data: adminData) => {
         })
       );
       dispatch(clearAlert());
-      // const response = await axios.post("https://food-appp-server.herokuapp.com/admin/register", {
-        const response = await axios.post(newPath+"/admin/register", {
+      const response = await axios.post("https://food-appp-server.herokuapp.com/admin/register", {
         email: data.email,
         password: data.password,
         name: data.name,
       });
       const { token, admin } = response.data;
-      toLacal(admin, token);
+
       if (response.status === 201) {
         dispatch(
           actions.sendMsg({
@@ -181,6 +181,7 @@ export const register = (data: adminData) => {
             isLoading: true,
           })
         );
+        toLacal(admin, token);
         dispatch(clearAlert());
         dispatch(actions.registerAdmin({ token, admin }));
         return;
@@ -253,7 +254,8 @@ export const deleteMeal = (id: string) => {
     try {
       await deleteMealFromBack();
     } catch (error) {
-      console.log(error);
+      dispatch(actions.logOutAdmin(null));
+      removeFromLocalStorage();
     }
   };
 };
@@ -281,7 +283,8 @@ export const editMealFromBack = (data: Data) => {
     try {
       await getMealFromBack();
     } catch (error) {
-      console.log(error);
+      dispatch(actions.logOutAdmin(null));
+      removeFromLocalStorage();
     }
   };
 };
@@ -289,11 +292,10 @@ export const editMealFromBack = (data: Data) => {
 export const getUser = () => {
   return async (dispatch: AppDispatch) => {
     const getUserFromBack = async () => {
-      // const response = await axios("https://food-appp-server.herokuapp.com/user");
-        const response = await authFetch( "/user");
+      const response = await axios("https://food-appp-server.herokuapp.com/user");
       if (response.status === 200) {
         dispatch(actions.setUser(response.data));
-        dispatch(actions.setUserLoading(false))
+        dispatch(actions.setUserLoading(false));
       }
     };
     try {

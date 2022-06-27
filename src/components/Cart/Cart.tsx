@@ -61,19 +61,18 @@ const Cart = (props: Props) => {
     </ul>
   );
 
+
   const handleIsCheckOut = () => {
     setIsCheckOUt(true);
   };
 
   const sendData = async (data: UserData) => {
-    console.log(items);
     setSubmit({
       ...submit,
       loading: true,
     });
     try {
-      // const response = await axios.post("https://food-appp-server.herokuapp.com/user", {
-      const response = await axios.post(newPath + "/user", {
+      const response = await axios.post("https://food-appp-server.herokuapp.com/user", {
         ...data,
         orders: items,
       });
@@ -93,12 +92,13 @@ const Cart = (props: Props) => {
 
   const realContent = (
     <>
-      {cartItem}
+      {!isCheckOut && cartItem}
+      {isCheckOut && <CheckOut onClick={props.onClose} sendData={sendData} />}
       <div className={classes.total}>
         <span>Total Amount</span>
         <span>{`$${total}`}</span>
       </div>
-      {isCheckOut && <CheckOut onClick={props.onClose} sendData={sendData} />}
+      {/* {isCheckOut && <CheckOut onClick={props.onClose} sendData={sendData} />} */}
 
       {!isCheckOut && (
         <div className={classes.actions}>

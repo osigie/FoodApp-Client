@@ -63,7 +63,7 @@ const cartSlice = createSlice({
           ...existingCartItem,
           amount: existingCartItem.amount - 1,
         };
-        const updatedTotalAmount = state.totalAmount - existingCartItem.amount;
+        const updatedTotalAmount = state.totalAmount - existingCartItem.price;
         updatedItems = [...state.items];
         updatedItems[index] = updatedItem;
         state.items = updatedItems;
@@ -74,6 +74,7 @@ const cartSlice = createSlice({
         });
 
         state.items = newData;
+        state.totalAmount = state.totalAmount - existingCartItem.price;
       }
     },
     clearCart: (state) => {

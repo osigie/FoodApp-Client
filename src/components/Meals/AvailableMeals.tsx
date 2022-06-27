@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import MealItem from "./MealItem/MealItem";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {  fetchMealLanding } from "../../features/meals/meals";
+import {BiSearch} from "react-icons/bi"
 import Loader from "../Loader/Loader"
 
 type MealType = {
@@ -42,9 +43,10 @@ const AvailableMeals = (props: Props) => {
           type="text"
           name="search"
           onChange={(e) => setSearch(e.target.value)}
-          className={`${classes.input}`}
+          className={`${classes.SearchInput}`}
+          placeholder = "Search..."
         />
-        Search
+        <BiSearch size = {30}/>
       </label>
 
       <Card>

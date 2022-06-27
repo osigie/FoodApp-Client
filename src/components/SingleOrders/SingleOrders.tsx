@@ -6,17 +6,32 @@ import moment from "moment";
 import Modal from "../UI/Modal";
 import Table from "../table/table";
 
-type Props = {
+
+type Data = {
+  id: string;
+  name: string;
+  amount: number;
+  price: number;
+  admin: string;
+};
+
+type Id = {
+  id: string;
   name: string;
   street: string;
   postal: string;
   city: string;
   createdAt: string;
-  orders: Array<any>;
+  updatedAt: string;
 };
 
-const SingleOrders = (props: any) => {
-  let date = moment(props.createdAt).format("MMM Do YYYY");
+export type Props = {
+  _id: Id,
+   data: Array<Data>
+};
+
+const SingleOrders = (props: Props) => {
+  let date = moment(props._id.createdAt).format("MMM Do YYYY  h:mm:ss");
   const [state, setState] = useState(false);
 
   const openModal = () => {
@@ -25,7 +40,6 @@ const SingleOrders = (props: any) => {
   const closeModal = () => {
     setState(false);
   };
-console.log(props)
   return (
     <div className={classes.singleOrdersContainer}>
       <header className={classes.headers}>
@@ -70,7 +84,7 @@ console.log(props)
                 <div className="col col-4">Amount</div>
               </li>
 
-              {props.data.map((order:any, index:any) => {
+              {props.data.map((order, index) => {
                 return (
                   <li className="table-row" key={index}>
                     <div className="col col-4" data-label="Name">
@@ -83,8 +97,10 @@ console.log(props)
                       {order.amount}
                     </div>
                   </li>
+
                 );
               })}
+              
             </ul>
 
             <div className={classes.buttonDiv}>

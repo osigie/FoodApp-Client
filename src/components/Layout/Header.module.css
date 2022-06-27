@@ -33,6 +33,8 @@
   align-items: center;
   flex-direction: row;
   gap: 2rem;
+  justify-content: space-evenly;
+  overflow: auto;
 }
 .adminContainer {
   display: flex;
@@ -40,11 +42,11 @@
   flex-direction: column;
   align-items: center;
 }
-.adminHolder{
+.adminHolder {
   display: flex;
   flex-direction: row;
   overflow: none;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
 .admin a {
@@ -53,6 +55,9 @@
 
 .adminContainer h4 {
   display: none;
+}
+.logoContainer {
+  /* margin-left: 10px; */
 }
 @media (max-width: 500px) {
   .logo {
@@ -63,7 +68,8 @@
   .adminContainer h4 {
     display: inline-block;
   }
-.rightHeader{
-  justify-items: space-between;
-}
+  .rightHeader {
+    /* justify-items: space-between; */
+     justify-content: space-evenly;
+  }
 }

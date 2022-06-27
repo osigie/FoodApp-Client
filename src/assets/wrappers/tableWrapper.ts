@@ -4,6 +4,7 @@ const Wrapper = styled.section`
   .responsive-table {
     display: flex;
     flex-direction: column;
+    overflow: auto;
     li {
       border-radius: 3px;
       padding: 25px 30px;

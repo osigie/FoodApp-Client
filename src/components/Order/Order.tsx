@@ -19,9 +19,4 @@ const Order = (props: Props) => {
 
 export default Order;
 
-// name
-// "owo an"
-// amount
-// 1
-// price
-// 46
+

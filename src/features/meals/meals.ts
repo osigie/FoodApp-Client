@@ -79,12 +79,11 @@ const actions = mealSlice.actions;
 export const fetchData = () => {
   return async (dispatch: AppDispatch) => {
     const fetching = async () => {
-      // const response = await axios("https://food-appp-server.herokuapp.com/meals");
-      const response = await authFetch("/meals/admin/v1");
+      const response = await axios("https://food-appp-server.herokuapp.com/meals/admin/v1");
+      // const response = await authFetch("/meals/admin/v1");
       if (response.status === 200) {
         dispatch(actions.setLoading({ loading: false }));
         dispatch(actions.fetchMeals(response.data));
- 
         return;
       }
     };
@@ -101,8 +100,8 @@ export const fetchData = () => {
 export const fetchMealLanding = () => {
   return async (dispatch: AppDispatch) => {
     const fetching = async () => {
-      const response = await axios(newPath+"/meals");
-      // const response = await authFetch("/meals");
+      // const response = await axios(newPath +"/meals");
+      const response = await authFetch("/meals");
       if (response.status === 200) {
         dispatch(actions.setLoading({ loading: false }));
         dispatch(actions.fetchLandingMeals(response.data));
